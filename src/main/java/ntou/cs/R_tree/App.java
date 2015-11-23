@@ -23,22 +23,22 @@ public class App
     {
     	List<Entry<String, Geometry>> list = new ArrayList<Entry<String, Geometry>>();
         for (long i = 0; i < 200; i++)
-            list.add(entry(new String(), (Geometry) r(Math.random() * 1000, Math.random() * 1000)));
+            list.add(entry(String.valueOf(i), (Geometry) r(Math.random() * 100, Math.random() * 100)));
         
-    	RTree<String, Geometry> tree = RTree.create();
+    	RTree<String, Geometry> tree = RTree.minChildren(5).maxChildren(10).create();
     	tree = tree.add(list);
     	System.out.println(tree.asString());
     	tree.visualize(2000,2000)
         .save("target/mytree.png", "PNG");
     	
-    	tree = RTree.star().create();
+    	tree = RTree.minChildren(5).maxChildren(10).star().create();
     	tree = tree.add(list);
     	tree.visualize(2000,2000)
         .save("target/mytreeStar.png", "PNG");
     }
     
     private static Rectangle r(double n, double m) {
-        return rectangle(n, m, n + 4, m + 6);
+        return rectangle(n, m, n + 1, m + 1);
     }
 
     static Rectangle random() {

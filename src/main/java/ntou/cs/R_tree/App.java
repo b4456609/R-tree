@@ -1,17 +1,10 @@
 package ntou.cs.R_tree;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import static com.github.davidmoten.rtree.Entry.entry;
-import static com.github.davidmoten.rtree.geometry.Geometries.rectangle;
-
 import com.github.davidmoten.rtree.Entry;
-import com.github.davidmoten.rtree.RTree;
-import com.github.davidmoten.rtree.geometry.Geometries;
-import com.github.davidmoten.rtree.geometry.Geometry;
 import com.github.davidmoten.rtree.geometry.Rectangle;
-
 
 /**
  * Hello world!
@@ -21,27 +14,30 @@ public class App
 {
     public static void main( String[] args )
     {
-    	List<Entry<String, Geometry>> list = new ArrayList<Entry<String, Geometry>>();
-        for (long i = 0; i < 200; i++)
-            list.add(entry(String.valueOf(i), (Geometry) r(Math.random() * 100, Math.random() * 100)));
         
-    	RTree<String, Geometry> tree = RTree.minChildren(5).maxChildren(10).create();
-    	tree = tree.add(list);
-    	System.out.println(tree.asString());
-    	tree.visualize(2000,2000)
-        .save("target/mytree.png", "PNG");
+    	Rtree<Object, Rectangle> tree = new Rtree<Object, Rectangle>(5, 10, true);
+    	try {
+			tree.put("1000-rec.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	System.out.println(tree);
+    	tree.visualize(2000,2000,"target/mytree.png");
+	
+    	List<Entry<Object, Rectangle>> entries = tree.find(50,50,100);
+    	System.out.println(entries.size());
+    	for(Entry<Object, Rectangle> item : entries){
+        	System.out.println(item);
+    	}
     	
-    	tree = RTree.minChildren(5).maxChildren(10).star().create();
-    	tree = tree.add(list);
-    	tree.visualize(2000,2000)
-        .save("target/mytreeStar.png", "PNG");
-    }
-    
-    private static Rectangle r(double n, double m) {
-        return rectangle(n, m, n + 1, m + 1);
-    }
+    	tree.delete(71.84164, 37.1636, 72.84164, 38.1636, null);
+    	
+    	entries = tree.find(50,50,100);
+    	System.out.println(entries.size());
+    	for(Entry<Object, Rectangle> item : entries){
+        	System.out.println(item);
+    	}
 
-    static Rectangle random() {
-        return r(Math.random() * 1000, Math.random() * 1000);
     }
 }

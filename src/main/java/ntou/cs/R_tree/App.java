@@ -15,9 +15,9 @@ public class App
     public static void main( String[] args )
     {
         
-    	Rtree<Object, Rectangle> tree = new Rtree<Object, Rectangle>(5, 10, true);
+    	Rtree<Object, Rectangle> tree = new Rtree<Object, Rectangle>(2, 4, true);
     	try {
-			tree.put("1000-rec.txt");
+			tree.put("test.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

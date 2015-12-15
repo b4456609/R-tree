@@ -43,7 +43,8 @@ public class Rtree<T, S extends Geometry> {
 			String line = br.readLine();
 
 			while (line != null) {
-				String[] intValues = br.readLine().split(" ");
+				System.out.println(line);
+				String[] intValues = line.split(" ");
 				if (intValues.length == 2) {
 					put(Double.parseDouble(intValues[0]), Double.parseDouble(intValues[1]), null);
 				} else {
